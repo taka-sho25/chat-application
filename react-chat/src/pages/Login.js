@@ -13,7 +13,12 @@ export default class Login extends React.Component {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        sessionStorage.setItem("uid", result.user.uid);
+        const data = {
+          uid: result.user.uid,
+          name: result.user.displayName,
+          photo: result.user.photoURL,
+        };
+        sessionStorage.setItem("user", JSON.stringify(data));
         this.props.history.push("/chat");
       })
       .catch((e) => {
@@ -25,11 +30,7 @@ export default class Login extends React.Component {
     return (
       <Template>
         <Container>
-          <SignImg
-            onClick={this.onEnter.bind(this)}
-            src={SignImage}
-            alt="Google Signin"
-          />
+          <SignImg onClick={this.onEnter.bind(this)} src={SignImage} alt="Google Signin" />
         </Container>
       </Template>
     );
